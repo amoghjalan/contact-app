@@ -1,5 +1,8 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
 
 class Edit extends React.Component {
   constructor(props) {
@@ -28,6 +31,8 @@ class Edit extends React.Component {
     this.setState({ redirectTo: "/" });
   };
 
+  deleteContact = () => {};
+
   render() {
     console.log(this.props.location);
     // const contact = this.props.location.state.contact;
@@ -38,30 +43,43 @@ class Edit extends React.Component {
     return (
       <div>
         <h2>Edit Contact</h2>
-        <input
-          value={this.state.name}
-          label="Name"
-          onChange={this.onChange}
-          name="name"
-        />
-        <input
-          value={this.state.email}
-          label="Email"
-          onChange={this.onChange}
-          name="email"
-        />
-        <input
-          value={this.state.phone}
-          label="Contact"
-          name="phone"
-          onChange={this.onChange}
-        />
-        <br />
-        <button onClick={this.editContact}>Edit Contact</button>
-        <br />
-        <br />
-
-        <button onClick={this.props.history.goBack}>Cancel</button>
+        <Stack
+          component="form"
+          sx={{
+            width: "25ch"
+          }}
+          spacing={2}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            id="outlined-name"
+            value={this.state.name}
+            label="Name"
+            onChange={this.onChange}
+            name="name"
+            type="name"
+            required
+          />
+          <TextField
+            id="outlined-name"
+            value={this.state.email}
+            label="Email"
+            onChange={this.onChange}
+            name="email"
+            type="email"
+          />
+          <TextField
+            id="outlined-name"
+            value={this.state.phone}
+            label="Contact"
+            name="phone"
+            onChange={this.onChange}
+            type="contact"
+          />
+        </Stack>
+        <Button onClick={this.editContact}>Save Changes</Button>
+        <Button onClick={this.props.history.goBack}>Cancel</Button>
       </div>
     );
   }

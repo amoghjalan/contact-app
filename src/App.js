@@ -4,6 +4,8 @@ import AddContact from "./pages/AddContact";
 import View from "./pages/View";
 import Edit from "./pages/Edit";
 import Home from "./pages/Home";
+import AppBar from "./components/AppBar";
+import "./Styles.css";
 
 export default class App extends React.Component {
   state = {
@@ -29,7 +31,7 @@ export default class App extends React.Component {
       contacts: newContacts,
       idToAssign: this.state.idToAssign + 1
     });
-    this.updateContacts(newContacts);
+    // this.updateContacts(newContacts);
   };
 
   editContact = newContact => {
@@ -43,45 +45,48 @@ export default class App extends React.Component {
     this.setState({
       contacts: newContacts
     });
-    this.updateContacts(newContacts);
+    // this.updateContacts(newContacts);
   };
 
-  updateContacts = newContacts => {
-    const storeItem = JSON.stringify(newContacts);
-    localStorage.setItem("contactList", storeItem);
-  };
+  // updateContacts = newContacts => {
+  //   const storeItem = JSON.stringify(newContacts);
+  //   localStorage.setItem("contactList", storeItem);
+  // };
 
   render() {
     return (
-      <div>
+      <>
+        <AppBar />
         <Router>
-          <Switch>
-            <Route
-              path="/"
-              render={routeProps => (
-                <Home contacts={this.state.contacts} {...routeProps} />
-              )}
-              exact
-            />
-            <Route
-              path="/add"
-              render={routeProps => (
-                <AddContact addContact={this.addContact} {...routeProps} />
-              )}
-            />
-            <Route
-              path="/edit"
-              render={routeProps => (
-                <Edit editContact={this.editContact} {...routeProps} />
-              )}
-            />
-            <Route
-              path="/view"
-              render={routeProps => <View {...routeProps} />}
-            />
-          </Switch>
+          <div className="center">
+            <Switch>
+              <Route
+                path="/"
+                render={routeProps => (
+                  <Home contacts={this.state.contacts} {...routeProps} />
+                )}
+                exact
+              />
+              <Route
+                path="/add"
+                render={routeProps => (
+                  <AddContact addContact={this.addContact} {...routeProps} />
+                )}
+              />
+              <Route
+                path="/edit"
+                render={routeProps => (
+                  <Edit editContact={this.editContact} {...routeProps} />
+                )}
+              />
+              <Route
+                path="/view"
+                render={routeProps => <View {...routeProps} />}
+              />
+            </Switch>
+          </div>
         </Router>
-      </div>
+      </>
     );
   }
 }

@@ -1,5 +1,13 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
+import ContactList from "../components/ContactList";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import IconButton from "@mui/material/IconButton";
+// import "./Styles.css";
 
 class Home extends React.Component {
   state = {
@@ -50,26 +58,32 @@ class Home extends React.Component {
     }
 
     return (
-      <div>
-        <h2>Contacts</h2>
+      <>
+        <Paper component="form">
+          <IconButton type="submit" aria-label="search">
+            <SearchIcon />
+          </IconButton>
+
+          <InputBase
+            placeholder="  Search Contacts  "
+            value={this.state.search}
+            onChange={e => this.setState({ search: e.target.value })}
+          />
+        </Paper>
+
+        {contactsToShow.map(contact => (
+          <div onClick={() => this.contactClicked(contact)}>
+            <ContactList key={contact.id} name={contact.name} />
+          </div>
+        ))}
+
         <Link to="/add">
-          <button>Add</button>
+          <Fab variant="extended">
+            <AddIcon />
+            Add
+          </Fab>
         </Link>
-        <br />
-        <br />
-        <label>Search </label>
-        <input
-          value={this.state.search}
-          onChange={e => this.setState({ search: e.target.value })}
-        />
-        <ul>
-          {contactsToShow.map(contact => (
-            <li key={contact.id} onClick={() => this.contactClicked(contact)}>
-              {contact.name} - {contact.email} - {contact.phone}
-            </li>
-          ))}
-        </ul>
-      </div>
+      </>
     );
   }
 }

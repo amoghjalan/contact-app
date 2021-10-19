@@ -7,12 +7,10 @@ class View extends React.Component {
     return (
       <div>
         <h2>View Contact</h2>
-        <h3>{contact.name}</h3>
-        <span>{contact.email}</span>
-        <br />
-        <span>{contact.phone}</span>
-        <br />
-        <br />
+        <h1>{contact.name}</h1>
+        <p>eMail: {contact.email}</p>
+        <p>Mobile: {contact.phone}</p>
+
         <Link
           to={{
             pathname: "/edit",

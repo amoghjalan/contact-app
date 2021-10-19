@@ -1,5 +1,8 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 class AddContact extends React.Component {
   state = {
@@ -32,12 +35,41 @@ class AddContact extends React.Component {
     return (
       <div>
         <h2>Add Contact</h2>
-        <input label="Name" onChange={this.onChange} name="name" />
-        <input label="Email" onChange={this.onChange} name="email" />
-        <input label="Contact" name="phone" onChange={this.onChange} />
-        <button onClick={this.addContact}>Add Contact</button>
+        <Stack
+          component="form"
+          sx={{
+            width: "25ch"
+          }}
+          spacing={2}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            id="outlined-name"
+            type="text"
+            label="Name"
+            onChange={this.onChange}
+            name="name"
+            required
+          />
+          <TextField
+            id="outlined-name"
+            type="email"
+            label="Email"
+            onChange={this.onChange}
+            name="email"
+          />
+          <TextField
+            id="outlined-name"
+            type="contact"
+            label="Contact"
+            name="phone"
+            onChange={this.onChange}
+          />
+        </Stack>
+        <Button onClick={this.addContact}>Add Contact</Button>
 
-        <button onClick={this.props.history.goBack}>Cancel</button>
+        <Button onClick={this.props.history.goBack}>Cancel</Button>
       </div>
     );
   }
