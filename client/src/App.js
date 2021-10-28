@@ -1,92 +1,44 @@
-import React from "react";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import AddContact from "./pages/AddContact";
-import View from "./pages/View";
-import Edit from "./pages/Edit";
-import Home from "./pages/Home";
-import AppBar from "./components/AppBar";
-import "./Styles.css";
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Navbar from "./components/layout/Navbar";
+import Home from "./components/pages/Home";
+import About from "./components/pages/About";
+import Register from "./components/auth/Register";
+import Login from "./components/auth/Login";
+import Alerts from "./components/layout/Alerts";
+import PrivateRoute from "./components/routing/PrivateRoute";
 
-export default class App extends React.Component {
-  state = {
-    contacts: [],
-    idToAssign: 1
-  };
+import ContactState from "./context/contact/ContactState";
+import AuthState from "./context/auth/AuthState";
+import AlertState from "./context/alert/AlertState";
+import "./App.css";
+import AddContact from "./components/pages/AddContact";
 
-  componentDidMount() {
-    const storeItem = localStorage.getItem("contactList");
+const App = () => {
+  return (
+    <AuthState>
+      <ContactState>
+        <AlertState>
+          <Router>
+            <Fragment>
+              <Navbar />
+              <div className="container">
+                <Alerts />
+                <Switch>
+                  <PrivateRoute exact path="/" component={Home} />
+                  <Route exact path="/addContact" component={AddContact} />
+                  <Route exact path="/editContact" component={AddContact} />
+                  <Route exact path="/about" component={About} />
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/login" component={Login} />
+                </Switch>
+              </div>
+            </Fragment>
+          </Router>
+        </AlertState>
+      </ContactState>
+    </AuthState>
+  );
+};
 
-    if (storeItem) {
-      const contacts = JSON.parse(storeItem);
-      this.setState({ contacts });
-    }
-  }
-
-  addContact = newContact => {
-    let newContacts = this.state.contacts;
-    newContact.id = this.state.idToAssign;
-    newContacts.push(newContact);
-    console.log(newContacts);
-    this.setState({
-      contacts: newContacts,
-      idToAssign: this.state.idToAssign + 1
-    });
-    // this.updateContacts(newContacts);
-  };
-
-  editContact = newContact => {
-    const id = newContact.id;
-    const newContacts = this.state.contacts.map(item => {
-      if (item.id === id) {
-        return newContact;
-      }
-      return item;
-    });
-    this.setState({
-      contacts: newContacts
-    });
-    // this.updateContacts(newContacts);
-  };
-
-  // updateContacts = newContacts => {
-  //   const storeItem = JSON.stringify(newContacts);
-  //   localStorage.setItem("contactList", storeItem);
-  // };
-
-  render() {
-    return (
-      <>
-        <AppBar />
-        <Router>
-          <div className="center">
-            <Switch>
-              <Route
-                path="/"
-                render={routeProps => (
-                  <Home contacts={this.state.contacts} {...routeProps} />
-                )}
-                exact
-              />
-              <Route
-                path="/add"
-                render={routeProps => (
-                  <AddContact addContact={this.addContact} {...routeProps} />
-                )}
-              />
-              <Route
-                path="/edit"
-                render={routeProps => (
-                  <Edit editContact={this.editContact} {...routeProps} />
-                )}
-              />
-              <Route
-                path="/view"
-                render={routeProps => <View {...routeProps} />}
-              />
-            </Switch>
-          </div>
-        </Router>
-      </>
-    );
-  }
-}
+export default App;
